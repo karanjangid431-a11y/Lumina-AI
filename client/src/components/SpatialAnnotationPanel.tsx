@@ -115,7 +115,7 @@ export const SpatialAnnotationPanel: React.FC<SpatialAnnotationPanelProps> = ({
                 min={1}
                 value={pageNumber}
                 onChange={(e) => setPageNumber(parseInt(e.target.value) || 1)}
-                className="w-full bg-slate-900 border border-neutral-800 rounded-lg px-2.5 py-1.5 text-xs text-white"
+                className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-2.5 py-1.5 text-xs text-white"
               />
             </div>
             <div className="col-span-3">
@@ -143,7 +143,7 @@ export const SpatialAnnotationPanel: React.FC<SpatialAnnotationPanelProps> = ({
               placeholder="Paste or cite document passage..."
               value={selectedText}
               onChange={(e) => setSelectedText(e.target.value)}
-              className="w-full bg-slate-900 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white placeholder-neutral-500"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white placeholder-neutral-500"
               required
             />
           </div>
@@ -155,7 +155,7 @@ export const SpatialAnnotationPanel: React.FC<SpatialAnnotationPanelProps> = ({
               placeholder="Write margin comment, analysis or critique..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="w-full bg-slate-900 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white placeholder-neutral-500 resize-none"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white placeholder-neutral-500 resize-none"
               required
             />
           </div>
@@ -182,7 +182,7 @@ export const SpatialAnnotationPanel: React.FC<SpatialAnnotationPanelProps> = ({
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               onKeyDown={handleAddTag}
-              className="w-full bg-slate-900 border border-neutral-800 rounded-lg px-3 py-1 text-xs text-white placeholder-neutral-500"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-1 text-xs text-white placeholder-neutral-500"
             />
           </div>
 
@@ -214,7 +214,7 @@ export const SpatialAnnotationPanel: React.FC<SpatialAnnotationPanelProps> = ({
           {annotations.map((ann) => (
             <div
               key={ann.id}
-              className="p-3.5 rounded-xl bg-neutral-900/50 border border-slate-800 text-xs relative group"
+              className="p-3.5 rounded-xl bg-neutral-900/50 border border-white/[0.08] text-xs relative group"
               style={{ borderLeftColor: ann.color, borderLeftWidth: '4px' }}
             >
               <div className="flex items-start justify-between gap-2 mb-1.5">

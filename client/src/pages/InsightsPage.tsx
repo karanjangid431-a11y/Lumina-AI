@@ -134,7 +134,7 @@ export default function InsightsPage() {
     { id: 'graph'     as TabId, label: 'Knowledge Graph',  icon: Network,   desc: 'Interactive entity relationship graph' },
     { id: 'compare'   as TabId, label: 'Compare',          icon: GitBranch, desc: 'Side-by-side source comparison' },
     { id: 'brief'     as TabId, label: 'Executive Brief',  icon: FileText,  desc: 'Audience-tuned executive summary' },
-    { id: 'gap-radar' as TabId, label: 'Gap Radar',        icon: Radio,     desc: 'Research gaps & opportunity map', badge: 'AI' },
+    { id: 'gap-radar' as TabId, label: 'Gap Radar',        icon: Radio,     desc: 'Research gaps & opportunity map' },
   ] as const;
 
   return (
@@ -162,7 +162,7 @@ export default function InsightsPage() {
       {/* Tabs — scrollable on small screens */}
       <div className="overflow-x-auto -mx-1 px-1 pb-0.5">
         <div className="flex gap-0.5 bg-neutral-900/40 p-1 rounded-xl w-max min-w-full border border-white/[0.06]">
-          {tabs.map(({ id, label, icon: Icon, desc, badge }) => (
+          {tabs.map(({ id, label, icon: Icon, desc }) => (
             <button
               key={id}
               onClick={() => switchTab(id)}
@@ -171,17 +171,12 @@ export default function InsightsPage() {
               role="tab"
               className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap select-none ${
                 activeTab === id
-                  ? 'bg-neutral-900 text-white  '
+                  ? 'bg-neutral-900 text-white shadow-sm'
                   : 'text-neutral-400 hover:text-white hover:bg-neutral-900/70'
               }`}
             >
               <Icon className={`w-4 h-4 shrink-0 ${activeTab === id ? 'text-white' : ''}`} />
               <span>{label}</span>
-              {badge && (
-                <span className="ml-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 uppercase tracking-wide">
-                  {badge}
-                </span>
-              )}
               {activeTab === id && (
                 <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-white/50" />
               )}
@@ -308,7 +303,7 @@ export default function InsightsPage() {
                           <span className={`text-xs px-2 py-1 rounded-md shrink-0 ${
                             g.confidence === 'High' ? 'bg-emerald-500/10 text-emerald-400' :
                             g.confidence === 'Medium' ? 'bg-yellow-500/10 text-yellow-400' :
-                            'bg-slate-500/10 text-neutral-400'
+                            'bg-neutral-500/10 text-neutral-400'
                           }`}>{g.confidence}</span>
                         </div>
                       </div>
@@ -321,12 +316,12 @@ export default function InsightsPage() {
               {insights.readingPath?.length > 0 && (
                 <div>
                   <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
-                    <BookOpen className="w-4 h-4 text-blue-400" /> Recommended Reading Path
+                    <BookOpen className="w-4 h-4 text-white" /> Recommended Reading Path
                   </h3>
                   <div className="space-y-2">
                     {insights.readingPath.map((r: any, i: number) => (
                       <div key={i} className="flex items-center gap-4 glass-panel rounded-xl p-4">
-                        <div className="w-8 h-8 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center shrink-0 text-sm font-bold text-blue-300">
+                        <div className="w-8 h-8 rounded-full bg-white/[0.08] border border-white/[0.15] flex items-center justify-center shrink-0 text-xs font-semibold text-white">
                           {r.order}
                         </div>
                         <div className="flex-1">

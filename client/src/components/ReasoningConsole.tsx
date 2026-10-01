@@ -126,16 +126,16 @@ export default function ReasoningConsole({ streamUrl, onAnswer, onDone }: Reason
 
   const statusDot =
     status === 'connecting' ? 'bg-amber-400 animate-pulse' :
-    status === 'streaming'  ? 'bg-blue-400 animate-pulse' :
+    status === 'streaming'  ? 'bg-neutral-200 animate-pulse' :
     status === 'done'       ? 'bg-emerald-400' :
-    status === 'error'      ? 'bg-red-400' : 'bg-slate-500';
+    status === 'error'      ? 'bg-red-400' : 'bg-neutral-500';
 
   return (
-    <div className="rounded-xl border border-neutral-800 overflow-hidden bg-[#0a0f1e]/90 backdrop-blur-sm shadow-2xl">
+    <div className="rounded-xl border border-white/[0.08] overflow-hidden bg-[#0d0e12]/95 backdrop-blur-md shadow-2xl">
       {/* Header bar */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/80 border-b border-neutral-800/50 cursor-pointer select-none"
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] border-b border-white/[0.08] cursor-pointer select-none"
            onClick={() => setCollapsed((c) => !c)}>
-        <Terminal className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+        <Terminal className="w-3.5 h-3.5 text-neutral-300 shrink-0" />
         <span className="text-xs font-mono font-semibold text-neutral-300">Co-Pilot Reasoning Console</span>
         <div className={`w-2 h-2 rounded-full ml-1 shrink-0 ${statusDot}`} title={status} />
         <span className="text-xs text-neutral-600 ml-0.5 capitalize">{status}</span>

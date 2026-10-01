@@ -121,12 +121,12 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl bg-slate-900 border border-neutral-800/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl bg-[#0d0e12] border border-white/[0.1] rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08] bg-[#0d0e12]/90 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+            <div className="p-2 rounded-lg bg-white/[0.06] border border-white/[0.1] text-white">
               <FileText className="w-5 h-5" />
             </div>
             <div>
@@ -168,55 +168,55 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
         </div>
 
         {/* Content Body: Left Canvas Viewport / Right Citation Quote */}
-        <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-3 bg-slate-950">
+        <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-3 bg-[#08090c]">
           {/* Canvas Viewport */}
-          <div className="md:col-span-2 overflow-auto p-6 flex justify-center items-start bg-slate-950/70 border-r border-white/5">
+          <div className="md:col-span-2 overflow-auto p-6 flex justify-center items-start bg-black/40 border-r border-white/[0.06]">
             <div
               style={{
                 transform: `scale(${zoom})`,
                 transformOrigin: 'top center',
                 transition: 'transform 0.15s ease-out',
               }}
-              className="shadow-2xl rounded-lg overflow-hidden border border-neutral-800"
+              className="shadow-2xl rounded-lg overflow-hidden border border-white/[0.08]"
             >
               <canvas ref={canvasRef} className="block" />
             </div>
           </div>
 
           {/* Right Citation Details Panel */}
-          <div className="p-6 flex flex-col justify-between bg-slate-900/40">
+          <div className="p-6 flex flex-col justify-between bg-[#0d0e12]/60">
             <div className="space-y-4">
               <div>
                 <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
                   Extracted Passage
                 </span>
-                <div className="mt-2 p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/50 text-sm text-neutral-200 leading-relaxed italic border-l-4 border-l-blue-400">
+                <div className="mt-2 p-3.5 rounded-xl bg-neutral-900/60 border border-white/[0.08] text-sm text-neutral-200 leading-relaxed italic border-l-2 border-l-white/40">
                   "{citation.quote}"
                 </div>
               </div>
 
               <div className="space-y-2 text-xs text-neutral-400">
-                <div className="flex justify-between py-1 border-b border-slate-800">
+                <div className="flex justify-between py-1 border-b border-white/[0.06]">
                   <span>Source Paper</span>
                   <span className="text-neutral-200 font-medium text-right max-w-[180px] truncate">
                     {citation.sourceTitle}
                   </span>
                 </div>
                 {citation.authors && (
-                  <div className="flex justify-between py-1 border-b border-slate-800">
+                  <div className="flex justify-between py-1 border-b border-white/[0.06]">
                     <span>Authors</span>
                     <span className="text-neutral-200 font-medium">{citation.authors.slice(0, 2).join(', ')}</span>
                   </div>
                 )}
                 {citation.year && (
-                  <div className="flex justify-between py-1 border-b border-slate-800">
+                  <div className="flex justify-between py-1 border-b border-white/[0.06]">
                     <span>Publication Year</span>
                     <span className="text-neutral-200 font-medium">{citation.year}</span>
                   </div>
                 )}
-                <div className="flex justify-between py-1 border-b border-slate-800">
+                <div className="flex justify-between py-1 border-b border-white/[0.06]">
                   <span>Page Index</span>
-                  <span className="text-blue-400 font-semibold">{citation.page || 1}</span>
+                  <span className="text-neutral-200 font-semibold">{citation.page || 1}</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span>Verification Engine</span>
@@ -225,7 +225,7 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800 flex gap-2">
+            <div className="pt-4 border-t border-white/[0.08] flex gap-2">
               <button
                 onClick={copyQuote}
                 className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-medium text-neutral-200 transition-colors"

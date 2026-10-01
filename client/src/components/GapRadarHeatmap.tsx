@@ -193,15 +193,15 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
             />
             {/* Hover tooltip */}
             {hoveredCell && (
-              <div className="absolute bottom-2 left-2 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-neutral-800 text-xs text-white backdrop-blur-sm pointer-events-none">
-                <div className="font-semibold text-blue-300">{hoveredCell.label}</div>
+              <div className="absolute bottom-2 left-2 px-2.5 py-1.5 rounded-lg bg-[#0e0f14]/95 border border-white/[0.1] text-xs text-white backdrop-blur-md pointer-events-none shadow-lg">
+                <div className="font-semibold text-white">{hoveredCell.label}</div>
                 <div className="text-neutral-400">{hoveredCell.density} chunk{hoveredCell.density !== 1 ? 's' : ''}</div>
               </div>
             )}
             {/* Legend */}
             <div className="absolute top-2 right-2 flex flex-col gap-1 text-xs">
               <div className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-sm bg-blue-500/70" />
+                <div className="w-3 h-3 rounded-sm bg-white/70" />
                 <span className="text-neutral-400">Well covered</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -230,7 +230,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
                   {onAutoSearch && (
                     <button
                       onClick={() => onAutoSearch(gap.label)}
-                      className="flex items-center gap-1 px-2 py-1 rounded bg-blue-600/20 border border-blue-500/30 text-blue-300 hover:text-blue-200 text-xs whitespace-nowrap transition-all shrink-0"
+                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/[0.08] hover:bg-white/[0.15] border border-white/[0.12] text-white text-xs whitespace-nowrap transition-all shrink-0 active:scale-95"
                       aria-label={`Search for ${gap.label}`}
                     >
                       <Search className="w-3 h-3" />
@@ -255,7 +255,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
             </div>
           )}
 
-          <div className="text-xs text-slate-700 text-right">
+          <div className="text-xs text-neutral-600 text-right">
             {data.totalChunks.toLocaleString()} chunks analysed · avg density {data.avgDensity}
           </div>
         </>

@@ -12,7 +12,7 @@ const TYPE_COLORS: Record<string, string> = {
   paper: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
   pdf: 'text-orange-400 bg-orange-500/10 border-orange-500/20',
   url: 'text-green-400 bg-green-500/10 border-green-500/20',
-  txt: 'text-neutral-400 bg-slate-500/10 border-slate-500/20',
+  txt: 'text-neutral-400 bg-neutral-500/10 border-neutral-500/20',
   docx: 'text-violet-400 bg-violet-500/10 border-violet-500/20',
 };
 
@@ -269,7 +269,7 @@ export default function LibraryPage() {
               </div>
 
               {expanded === s.id && (
-                <div className="border-t border-neutral-800 p-5 bg-slate-900/30">
+                <div className="border-t border-neutral-800 p-5 bg-neutral-900/30">
                   {!summaries[s.id] ? (
                     <button
                       onClick={() => summaryMut.mutate(s.id)}
@@ -303,7 +303,7 @@ export default function LibraryPage() {
                   )}
 
                   {/* Spatial Document Annotations */}
-                  <div className="mt-5 pt-4 border-t border-slate-800">
+                  <div className="mt-5 pt-4 border-t border-white/[0.08]">
                     <SpatialAnnotationPanel
                       sourceTitle={s.title}
                       annotations={annotations[s.id] || []}

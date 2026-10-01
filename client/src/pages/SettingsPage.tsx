@@ -89,7 +89,7 @@ export default function SettingsPage() {
       </div>
 
       {/* General Settings Card */}
-      <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-5">
+      <div className="glass-panel rounded-2xl p-6 border border-white/[0.08] space-y-5">
         <h3 className="text-base font-semibold text-white">General Information</h3>
 
         <div className="space-y-4">
@@ -99,7 +99,7 @@ export default function SettingsPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-slate-900 border border-neutral-800/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/30"
             />
           </div>
 
@@ -109,7 +109,7 @@ export default function SettingsPage() {
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-slate-900 border border-neutral-800/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 resize-none"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/30 resize-none"
             />
           </div>
 
@@ -119,7 +119,7 @@ export default function SettingsPage() {
               type="text"
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
-              className="w-full bg-slate-900 border border-neutral-800/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/30"
             />
           </div>
 
@@ -136,11 +136,11 @@ export default function SettingsPage() {
                     onClick={() => setMode(m.id)}
                     className={`p-3.5 rounded-xl border text-left flex items-start gap-3 transition-all ${
                       isSel
-                        ? 'bg-blue-600/15 border-blue-500 text-white'
-                        : 'bg-neutral-900/50 border-slate-800 text-neutral-400 hover:text-neutral-200'
+                        ? 'bg-white/[0.08] border-white/20 text-white shadow-sm'
+                        : 'bg-neutral-900/50 border-white/[0.06] text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
-                    <Icon className={`w-5 h-5 mt-0.5 shrink-0 ${isSel ? 'text-blue-400' : 'text-neutral-500'}`} />
+                    <Icon className={`w-5 h-5 mt-0.5 shrink-0 ${isSel ? 'text-white' : 'text-neutral-500'}`} />
                     <div>
                       <div className="text-xs font-semibold">{m.label}</div>
                       <div className="text-[11px] text-neutral-500 mt-0.5">{m.desc}</div>
@@ -152,7 +152,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+        <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
           {savedSuccess && (
             <span className="text-xs text-emerald-400 flex items-center gap-1.5">
               <CheckCircle className="w-4 h-4" /> Settings updated successfully
@@ -171,7 +171,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Export Pipelines Card */}
-      <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-4">
+      <div className="glass-panel rounded-2xl p-6 border border-white/[0.08] space-y-4">
         <div>
           <h3 className="text-base font-semibold text-white flex items-center gap-2">
             <Download className="w-5 h-5 text-blue-400" />

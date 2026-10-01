@@ -230,7 +230,7 @@ export default function TablesPage() {
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-700/30">
+                      <tbody className="divide-y divide-white/[0.06]">
                         {table.rows.map((row: any, rowIdx: number) => (
                           <tr key={rowIdx} className="hover:bg-neutral-900/30 transition-colors">
                             <td className="px-4 py-3 text-neutral-500 text-xs">{rowIdx + 1}</td>
@@ -241,7 +241,7 @@ export default function TablesPage() {
                                     <input
                                       value={cellVal}
                                       onChange={(e) => setCellVal(e.target.value)}
-                                      className="bg-neutral-900 border border-blue-500/50 rounded px-2 py-1 text-xs text-white w-full focus:outline-none"
+                                      className="bg-neutral-900 border border-white/20 rounded px-2 py-1 text-xs text-white w-full focus:outline-none"
                                       autoFocus
                                     />
                                     <button onClick={() => {
