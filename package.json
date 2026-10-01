@@ -1,0 +1,19 @@
+{
+  "name": "lumina-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lumina-AI: From information overload to cited insight, in minutes.",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "concurrently -n \"server,client\" -c \"blue,green\" \"npm run dev:server\" \"npm run dev:client\"",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "build": "npm run build:client && npm run build:server",
+    "test:server": "cd server && npm test",
+    "eval": "cd server && npm run eval"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
