@@ -152,7 +152,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
           <TrendingUp className="w-4 h-4 text-violet-400" />
           <span className="text-sm font-semibold text-white">Research Gap Predictor</span>
           {data && (
-            <span className="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-400">
+            <span className="text-xs px-2 py-0.5 rounded-md bg-neutral-900 text-neutral-400">
               {data.coveragePercent}% covered
             </span>
           )}
@@ -160,7 +160,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
         <button
           onClick={() => refetch()}
           disabled={isFetching}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-700/40 text-slate-400 hover:text-white text-xs transition-all"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-neutral-800 text-neutral-400 hover:text-white text-xs transition-all"
           aria-label="Refresh gap radar"
         >
           <RefreshCw className={`w-3 h-3 ${isFetching ? 'animate-spin' : ''}`} />
@@ -170,18 +170,18 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
 
       {/* Radar canvas */}
       {isLoading ? (
-        <div className="h-56 rounded-xl bg-slate-800/40 border border-slate-700/30 flex items-center justify-center gap-2 text-slate-500 text-sm">
+        <div className="h-56 rounded-xl bg-neutral-900/50 border border-white/[0.08] flex items-center justify-center gap-2 text-neutral-500 text-sm">
           <Loader className="w-4 h-4 animate-spin" />
           Analysing vector clusters…
         </div>
       ) : isError ? (
-        <div className="h-56 rounded-xl bg-slate-800/40 border border-red-500/20 flex items-center justify-center gap-2 text-red-400 text-sm">
+        <div className="h-56 rounded-xl bg-neutral-900/50 border border-red-500/20 flex items-center justify-center gap-2 text-red-400 text-sm">
           <AlertTriangle className="w-4 h-4" />
           Failed to load gap radar
         </div>
       ) : data ? (
         <>
-          <div className="relative rounded-xl overflow-hidden border border-slate-700/30">
+          <div className="relative rounded-xl overflow-hidden border border-white/[0.08]">
             <canvas
               ref={canvasRef}
               width={320}
@@ -193,20 +193,20 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
             />
             {/* Hover tooltip */}
             {hoveredCell && (
-              <div className="absolute bottom-2 left-2 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700/60 text-xs text-white backdrop-blur-sm pointer-events-none">
+              <div className="absolute bottom-2 left-2 px-2.5 py-1.5 rounded-lg bg-slate-900/90 border border-neutral-800 text-xs text-white backdrop-blur-sm pointer-events-none">
                 <div className="font-semibold text-blue-300">{hoveredCell.label}</div>
-                <div className="text-slate-400">{hoveredCell.density} chunk{hoveredCell.density !== 1 ? 's' : ''}</div>
+                <div className="text-neutral-400">{hoveredCell.density} chunk{hoveredCell.density !== 1 ? 's' : ''}</div>
               </div>
             )}
             {/* Legend */}
             <div className="absolute top-2 right-2 flex flex-col gap-1 text-xs">
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-sm bg-blue-500/70" />
-                <span className="text-slate-400">Well covered</span>
+                <span className="text-neutral-400">Well covered</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 rounded-sm bg-red-500/30 border border-red-500/40" />
-                <span className="text-slate-400">Gap</span>
+                <span className="text-neutral-400">Gap</span>
               </div>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
           {/* Gap list */}
           {data.gaps.length > 0 && (
             <div className="space-y-2">
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+              <div className="text-xs font-semibold text-neutral-400 uppercase tracking-wide">
                 Top Research Gaps ({data.gaps.length})
               </div>
               {data.gaps.map((gap, i) => (
@@ -225,7 +225,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
                   <AlertTriangle className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-semibold text-red-300">{gap.label}</div>
-                    <div className="text-xs text-slate-500 mt-0.5 leading-relaxed">{gap.suggestion}</div>
+                    <div className="text-xs text-neutral-500 mt-0.5 leading-relaxed">{gap.suggestion}</div>
                   </div>
                   {onAutoSearch && (
                     <button
@@ -250,7 +250,7 @@ export default function GapRadarHeatmap({ wid, onAutoSearch }: GapRadarHeatmapPr
           )}
 
           {data.totalChunks === 0 && (
-            <div className="text-center py-4 text-slate-500 text-xs">
+            <div className="text-center py-4 text-neutral-500 text-xs">
               Add sources to your workspace to enable gap analysis.
             </div>
           )}

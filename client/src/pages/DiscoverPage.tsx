@@ -83,64 +83,65 @@ export default function DiscoverPage() {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-white">Discover</h2>
-        <p className="text-slate-400 text-sm mt-0.5">Search millions of papers via OpenAlex and add them to your workspace</p>
+        <p className="text-neutral-400 text-sm mt-0.5">Search millions of papers via OpenAlex and add them to your workspace</p>
       </div>
 
       {/* Search bar */}
       <div className="glass-panel rounded-2xl p-5">
         <div className="flex gap-3 mb-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               placeholder="Search papers, authors, topics..."
-              className="w-full bg-slate-800/50 border border-slate-700/60 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/30"
+              className="w-full bg-neutral-900/70 border border-neutral-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-700"
             />
           </div>
           <button
             onClick={handleSearch}
             disabled={!query.trim() || searchMut.isPending}
-            className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50"
+            title="Search papers (Enter)"
+            className="flex items-center gap-2 px-5 py-3 bg-white hover:bg-neutral-200 text-black disabled:opacity-40 disabled:cursor-not-allowed rounded-full text-sm font-medium transition-all shadow-sm active:scale-95"
           >
             {searchMut.isPending ? <Loader className="w-4 h-4 animate-spin" /> : <Telescope className="w-4 h-4" />}
-            {searchMut.isPending ? 'Searching...' : 'Search'}
+            {searchMut.isPending ? 'Searching…' : 'Search'}
           </button>
         </div>
 
         {/* Filters */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div>
-            <label className="text-xs text-slate-500 mb-1 block">Domain</label>
+            <label className="text-xs text-neutral-500 mb-1 block">Domain</label>
             <select
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
-              className="w-full bg-slate-800/40 border border-slate-700/40 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500/50"
+              className="w-full bg-neutral-900/50 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-neutral-300 focus:outline-none focus:border-neutral-600"
             >
               <option value="">All Domains</option>
               {DOMAIN_FILTERS.map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-xs text-slate-500 mb-1 block">Year From</label>
+            <label className="text-xs text-neutral-500 mb-1 block">Year From</label>
             <input
               type="number"
               value={yearFrom}
               onChange={(e) => setYearFrom(e.target.value)}
               placeholder="2015"
-              className="w-full bg-slate-800/40 border border-slate-700/40 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500/50"
+              className="w-full bg-neutral-900/50 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-neutral-300 focus:outline-none focus:border-neutral-600"
             />
           </div>
           <div>
-            <label className="text-xs text-slate-500 mb-1 block">Year To</label>
+            <label className="text-xs text-neutral-500 mb-1 block">Year To</label>
             <input
               type="number"
               value={yearTo}
               onChange={(e) => setYearTo(e.target.value)}
               placeholder="2025"
-              className="w-full bg-slate-800/40 border border-slate-700/40 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500/50"
+              className="w-full bg-neutral-900/50 border border-neutral-800 rounded-lg px-3 py-2 text-xs text-neutral-300 focus:outline-none focus:border-neutral-600"
             />
           </div>
           <div className="flex items-end pb-2">
@@ -151,7 +152,7 @@ export default function DiscoverPage() {
                 onChange={(e) => setOpenAccessOnly(e.target.checked)}
                 className="w-4 h-4 rounded accent-blue-500"
               />
-              <span className="text-xs text-slate-300">Open Access Only</span>
+              <span className="text-xs text-neutral-300">Open Access Only</span>
             </label>
           </div>
         </div>
@@ -163,7 +164,7 @@ export default function DiscoverPage() {
           <button
             key={tag}
             onClick={() => { setQuery(tag); }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-800/60 border border-slate-700/40 text-slate-300 hover:text-white hover:border-blue-500/40 text-xs transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900/60 border border-neutral-800 text-neutral-300 hover:text-white hover:border-blue-500/40 text-xs transition-all"
           >
             <Tag className="w-3 h-3 text-blue-400" />
             {tag}
@@ -176,21 +177,21 @@ export default function DiscoverPage() {
         <div className="space-y-3">
           {[1,2,3,4,5].map(i => (
             <div key={i} className="glass-panel rounded-xl p-5 animate-pulse">
-              <div className="h-4 bg-slate-700 rounded w-3/4 mb-3" />
-              <div className="h-3 bg-slate-800 rounded w-1/2 mb-2" />
-              <div className="h-3 bg-slate-800 rounded w-full" />
+              <div className="h-4 bg-neutral-800 rounded w-3/4 mb-3" />
+              <div className="h-3 bg-neutral-900 rounded w-1/2 mb-2" />
+              <div className="h-3 bg-neutral-900 rounded w-full" />
             </div>
           ))}
         </div>
       ) : results.length === 0 && !searchMut.isIdle ? (
         <div className="text-center py-16 glass-panel rounded-2xl">
-          <Telescope className="w-10 h-10 mx-auto mb-3 text-slate-600" />
-          <p className="text-slate-400">No papers found. Try a different query.</p>
+          <Telescope className="w-10 h-10 mx-auto mb-3 text-neutral-600" />
+          <p className="text-neutral-400">No papers found. Try a different query.</p>
         </div>
       ) : results.length > 0 ? (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-slate-300">{results.length} results</h3>
+            <h3 className="text-sm font-medium text-neutral-300">{results.length} results</h3>
           </div>
           {results.map((paper) => (
             <div key={paper.id} className="glass-panel rounded-xl overflow-hidden">
@@ -202,36 +203,36 @@ export default function DiscoverPage() {
                         <span className="text-xs px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">Open Access</span>
                       )}
                       {paper.year && (
-                        <div className="flex items-center gap-1 text-slate-500 text-xs">
+                        <div className="flex items-center gap-1 text-neutral-500 text-xs">
                           <Calendar className="w-3 h-3" />{paper.year}
                         </div>
                       )}
                       {paper.citationCount != null && paper.citationCount > 0 && (
-                        <div className="flex items-center gap-1 text-slate-500 text-xs">
+                        <div className="flex items-center gap-1 text-neutral-500 text-xs">
                           <Star className="w-3 h-3" />{paper.citationCount.toLocaleString()}
                         </div>
                       )}
                     </div>
                     <h3
-                      className="text-sm font-semibold text-white cursor-pointer hover:text-blue-300 transition-colors line-clamp-2"
+                      className="text-sm font-semibold text-white cursor-pointer hover:text-white transition-colors line-clamp-2"
                       onClick={() => setExpanded(expanded === paper.id ? null : paper.id)}
                     >
                       {paper.title}
                     </h3>
                     <div className="flex items-center gap-2 mt-1.5">
                       {paper.authors?.length > 0 && (
-                        <div className="flex items-center gap-1 text-slate-400 text-xs">
+                        <div className="flex items-center gap-1 text-neutral-400 text-xs">
                           <Users className="w-3 h-3" />
                           {paper.authors.slice(0, 3).join(', ')}{paper.authors.length > 3 ? ` +${paper.authors.length - 3}` : ''}
                         </div>
                       )}
-                      {paper.venue && <span className="text-slate-500 text-xs">· {paper.venue}</span>}
+                      {paper.venue && <span className="text-neutral-500 text-xs">· {paper.venue}</span>}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     {paper.url && (
                       <a href={paper.url} target="_blank" rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg hover:bg-slate-700/60 text-slate-400 hover:text-blue-400 transition-colors">
+                        className="p-1.5 rounded-lg hover:bg-neutral-800/60 text-neutral-400 hover:text-white transition-colors">
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}
@@ -241,7 +242,7 @@ export default function DiscoverPage() {
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         added.has(paper.id)
                           ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : 'bg-blue-600 hover:bg-blue-500 text-white'
+                          : 'bg-white hover:bg-neutral-200 text-black'
                       } disabled:opacity-60`}
                     >
                       {added.has(paper.id) ? (
@@ -254,10 +255,10 @@ export default function DiscoverPage() {
                 </div>
 
                 {expanded === paper.id && paper.abstract && (
-                  <div className="mt-3 pt-3 border-t border-slate-700/40">
-                    <p className="text-slate-400 text-xs leading-relaxed">{paper.abstract}</p>
+                  <div className="mt-3 pt-3 border-t border-neutral-800">
+                    <p className="text-neutral-400 text-xs leading-relaxed">{paper.abstract}</p>
                     {paper.doi && (
-                      <p className="text-xs text-slate-600 mt-2">DOI: {paper.doi}</p>
+                      <p className="text-xs text-neutral-600 mt-2">DOI: {paper.doi}</p>
                     )}
                   </div>
                 )}
@@ -267,9 +268,9 @@ export default function DiscoverPage() {
         </div>
       ) : (
         <div className="text-center py-24 glass-panel rounded-2xl">
-          <Telescope className="w-14 h-14 mx-auto mb-4 text-slate-600" />
-          <h3 className="text-lg font-medium text-slate-400 mb-2">Discover Research Papers</h3>
-          <p className="text-slate-600 text-sm max-w-md mx-auto">
+          <Telescope className="w-14 h-14 mx-auto mb-4 text-neutral-600" />
+          <h3 className="text-lg font-medium text-neutral-400 mb-2">Discover Research Papers</h3>
+          <p className="text-neutral-600 text-sm max-w-md mx-auto">
             Search the OpenAlex database of 240M+ scholarly works and add them directly to your workspace
           </p>
         </div>

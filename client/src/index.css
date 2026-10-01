@@ -2,105 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ───────────────────────────────────────────────────────────────────────────
+   Apple Design System — Lumina AI
+   Base: #090A0F · Neutral palette · SF Pro / Inter typography
+   ─────────────────────────────────────────────────────────────────────────── */
+
 @layer base {
   :root {
-    --bg-primary: #0b111e;
-    --bg-secondary: #151e2e;
-    --bg-tertiary: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --accent: #0e8ce8;
+    --bg-primary: #090A0F;
+    --bg-surface: rgba(23, 23, 23, 0.40);
+    --bg-elevated: rgba(38, 38, 38, 0.50);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.12);
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --text-tertiary: #737373;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #0b111e;
-    color: #f8fafc;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #090A0F;
+    color: #ffffff;
+    font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Helvetica Neue', system-ui, sans-serif;
     overflow-x: hidden;
+  }
+
+  /* Ultra-subtle ambient light at the top of the viewport */
+  #root {
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 255, 255, 0.03), transparent 70%),
+      #090A0F;
   }
 }
 
-/* Custom Glassmorphism & Micro-Interactions */
+/* ── Glassmorphic Surfaces ────────────────────────────────────────────────── */
+
 .glass-panel {
-  background: rgba(21, 30, 46, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(23, 23, 23, 0.45);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(23, 23, 23, 0.35);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .glass-card:hover {
-  border-color: rgba(14, 140, 232, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px -3px rgba(14, 140, 232, 0.15);
+  background: rgba(38, 38, 38, 0.55);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-/* Highlighted Citation Span in Text Viewer */
+/* ── Citation Highlights ──────────────────────────────────────────────────── */
+
 .citation-highlight {
-  background-color: rgba(14, 140, 232, 0.35);
-  border-bottom: 2px solid #38a8f6;
+  background-color: rgba(99, 102, 241, 0.25);
+  border-bottom: 2px solid rgba(129, 140, 248, 0.6);
   border-radius: 2px;
   padding: 2px 4px;
   transition: background-color 0.3s ease;
 }
 
 .citation-highlight.active {
-  background-color: rgba(245, 158, 11, 0.45);
+  background-color: rgba(245, 158, 11, 0.35);
   border-bottom-color: #f59e0b;
 }
 
-/* Custom Scrollbar */
+/* ── Scrollbar (macOS-style thin track) ───────────────────────────────────── */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b111e;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #273549;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
+  background: rgba(255, 255, 255, 0.22);
 }
 
-/* Pulse Glow */
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(14, 140, 232, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 22px rgba(14, 140, 232, 0.7);
-  }
-}
-.pulse-glow {
-  animation: pulseGlow 2.5s infinite;
-}
+/* ── Prose Overrides (Markdown in dark mode) ──────────────────────────────── */
 
-/* Prose Overrides for ReactMarkdown in dark mode */
-.prose-invert p { color: #cbd5e1; margin: 0.5em 0; }
-.prose-invert h1, .prose-invert h2, .prose-invert h3 { color: #f1f5f9; margin: 0.75em 0 0.4em; font-weight: 600; }
+.prose-invert p { color: #d4d4d4; margin: 0.5em 0; }
+.prose-invert h1, .prose-invert h2, .prose-invert h3 { color: #fafafa; margin: 0.75em 0 0.4em; font-weight: 600; letter-spacing: -0.01em; }
 .prose-invert ul, .prose-invert ol { padding-left: 1.25em; }
-.prose-invert li { color: #cbd5e1; margin: 0.2em 0; }
-.prose-invert code { background: rgba(30, 41, 59, 0.8); color: #7dd3fc; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-family: 'JetBrains Mono', monospace; }
-.prose-invert pre { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 1em; overflow-x: auto; }
-.prose-invert pre code { background: transparent; color: #e2e8f0; padding: 0; }
-.prose-invert blockquote { border-left: 3px solid #3b82f6; padding-left: 1em; color: #94a3b8; font-style: italic; }
-.prose-invert a { color: #60a5fa; text-decoration: underline; }
-.prose-invert strong { color: #f1f5f9; font-weight: 600; }
-.prose-invert hr { border-color: rgba(255,255,255,0.1); }
+.prose-invert li { color: #d4d4d4; margin: 0.2em 0; }
+.prose-invert code { background: rgba(38, 38, 38, 0.8); color: #a5b4fc; padding: 2px 6px; border-radius: 4px; font-size: 0.85em; font-family: 'SF Mono', 'JetBrains Mono', monospace; }
+.prose-invert pre { background: rgba(14, 14, 14, 0.85); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 1em; overflow-x: auto; }
+.prose-invert pre code { background: transparent; color: #e5e5e5; padding: 0; }
+.prose-invert blockquote { border-left: 3px solid rgba(255,255,255,0.15); padding-left: 1em; color: #a3a3a3; font-style: italic; }
+.prose-invert a { color: #818cf8; text-decoration: underline; text-underline-offset: 2px; }
+.prose-invert strong { color: #fafafa; font-weight: 600; }
+.prose-invert hr { border-color: rgba(255,255,255,0.08); }
 .prose-invert table { border-collapse: collapse; width: 100%; }
-.prose-invert th { background: rgba(30, 41, 59, 0.8); color: #94a3b8; font-size: 0.75em; text-transform: uppercase; padding: 0.5em 0.75em; border: 1px solid rgba(255,255,255,0.06); }
-.prose-invert td { padding: 0.5em 0.75em; border: 1px solid rgba(255,255,255,0.06); color: #cbd5e1; font-size: 0.875em; }
+.prose-invert th { background: rgba(38, 38, 38, 0.6); color: #a3a3a3; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.5em 0.75em; border: 1px solid rgba(255,255,255,0.06); }
+.prose-invert td { padding: 0.5em 0.75em; border: 1px solid rgba(255,255,255,0.06); color: #d4d4d4; font-size: 0.875em; }
 
-/* Line clamp utilities */
+/* ── Utility Classes ──────────────────────────────────────────────────────── */
+
 .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Safe area for mobile bottom nav */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}

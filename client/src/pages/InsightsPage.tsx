@@ -21,8 +21,16 @@ export default function InsightsPage() {
   const graphRef = useRef<HTMLDivElement>(null);
   const networkRef = useRef<any>(null);
 
-  const initialTab = location.pathname.includes('/graph') ? 'graph' : 'synthesis';
-  const [activeTab, setActiveTab] = useState<'synthesis' | 'graph' | 'compare' | 'brief' | 'gap-radar'>(initialTab);
+  type TabId = 'synthesis' | 'graph' | 'compare' | 'brief' | 'gap-radar';
+  const hashMap: Record<string, TabId> = {
+    '#synthesis': 'synthesis', '#graph': 'graph', '#compare': 'compare',
+    '#brief': 'brief', '#gap-radar': 'gap-radar',
+  };
+  const getTabFromLocation = () => {
+    if (location.pathname.includes('/graph')) return 'graph';
+    return hashMap[location.hash] ?? 'synthesis';
+  };
+  const [activeTab, setActiveTab] = useState<TabId>(getTabFromLocation);
   const [compareA, setCompareA] = useState('');
   const [compareB, setCompareB] = useState('');
   const [briefAudience, setBriefAudience] = useState('Executive Leadership');
@@ -33,10 +41,15 @@ export default function InsightsPage() {
   const [currentSnapshot, setCurrentSnapshot] = useState<any>(null);
 
   useEffect(() => {
-    if (location.pathname.includes('/graph')) {
-      setActiveTab('graph');
-    }
-  }, [location.pathname]);
+    const tab = getTabFromLocation();
+    setActiveTab(tab);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, location.hash]);
+
+  const switchTab = (id: TabId) => {
+    setActiveTab(id);
+    window.history.replaceState(null, '', `${location.pathname}#${id}`);
+  };
 
   const { data: sourcesData } = useQuery({
     queryKey: ['sources', wid],
@@ -117,45 +130,64 @@ export default function InsightsPage() {
   }, [activeTab, graphData]);
 
   const tabs = [
-    { id: 'synthesis', label: 'Synthesis', icon: Lightbulb },
-    { id: 'graph', label: 'Knowledge Graph', icon: Network },
-    { id: 'compare', label: 'Compare', icon: GitBranch },
-    { id: 'brief', label: 'Executive Brief', icon: FileText },
-    { id: 'gap-radar', label: 'Gap Radar', icon: Radio },
+    { id: 'synthesis' as TabId, label: 'Synthesis',       icon: Lightbulb, desc: 'AI-synthesized summary across sources' },
+    { id: 'graph'     as TabId, label: 'Knowledge Graph',  icon: Network,   desc: 'Interactive entity relationship graph' },
+    { id: 'compare'   as TabId, label: 'Compare',          icon: GitBranch, desc: 'Side-by-side source comparison' },
+    { id: 'brief'     as TabId, label: 'Executive Brief',  icon: FileText,  desc: 'Audience-tuned executive summary' },
+    { id: 'gap-radar' as TabId, label: 'Gap Radar',        icon: Radio,     desc: 'Research gaps & opportunity map', badge: 'AI' },
   ] as const;
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h2 className="text-2xl font-bold text-white">Insights</h2>
-          <p className="text-slate-400 text-sm mt-0.5">AI-generated synthesis, gaps, and knowledge graph</p>
+          <p className="text-neutral-400 text-sm mt-0.5">
+            AI-generated synthesis, gaps, and knowledge graph
+            {sources.length > 0 && <span className="ml-2 text-xs text-neutral-600">· {sources.length} sources</span>}
+          </p>
         </div>
         <button
           onClick={() => generateMut.mutate()}
           disabled={generateMut.isPending || sources.length === 0}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium transition-colors shadow-lg shadow-blue-500/20 disabled:opacity-50"
+          title={sources.length === 0 ? 'Add sources in the Library first' : 'Regenerate all insights'}
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-neutral-200 text-black disabled:opacity-40 disabled:cursor-not-allowed rounded-full text-sm font-medium transition-all shadow-sm active:scale-95"
         >
           <RefreshCw className={`w-4 h-4 ${generateMut.isPending ? 'animate-spin' : ''}`} />
-          {generateMut.isPending ? 'Generating...' : 'Generate Insights'}
+          {generateMut.isPending ? 'Generating…' : 'Generate Insights'}
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-1 bg-slate-900/60 p-1 rounded-xl w-fit">
-        {tabs.map(({ id, label, icon: Icon }) => (
-          <button
-            key={id}
-            onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeTab === id ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            <Icon className="w-4 h-4" />
-            {label}
-          </button>
-        ))}
+      {/* Tabs — scrollable on small screens */}
+      <div className="overflow-x-auto -mx-1 px-1 pb-0.5">
+        <div className="flex gap-0.5 bg-neutral-900/40 p-1 rounded-xl w-max min-w-full border border-white/[0.06]">
+          {tabs.map(({ id, label, icon: Icon, desc, badge }) => (
+            <button
+              key={id}
+              onClick={() => switchTab(id)}
+              title={desc}
+              aria-selected={activeTab === id}
+              role="tab"
+              className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap select-none ${
+                activeTab === id
+                  ? 'bg-neutral-900 text-white  '
+                  : 'text-neutral-400 hover:text-white hover:bg-neutral-900/70'
+              }`}
+            >
+              <Icon className={`w-4 h-4 shrink-0 ${activeTab === id ? 'text-white' : ''}`} />
+              <span>{label}</span>
+              {badge && (
+                <span className="ml-1 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 uppercase tracking-wide">
+                  {badge}
+                </span>
+              )}
+              {activeTab === id && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 rounded-full bg-white/50" />
+              )}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Synthesis Tab */}
@@ -167,9 +199,9 @@ export default function InsightsPage() {
             </div>
           ) : !insights ? (
             <div className="text-center py-24 glass-panel rounded-2xl">
-              <Lightbulb className="w-12 h-12 mx-auto mb-4 text-slate-600" />
-              <h3 className="text-lg font-medium text-slate-400 mb-2">No insights yet</h3>
-              <p className="text-slate-600 text-sm mb-6">Add sources and click "Generate Insights" to start</p>
+              <Lightbulb className="w-12 h-12 mx-auto mb-4 text-neutral-600" />
+              <h3 className="text-lg font-medium text-neutral-400 mb-2">No insights yet</h3>
+              <p className="text-neutral-600 text-sm mb-6">Add sources and click "Generate Insights" to start</p>
             </div>
           ) : (
             <>
@@ -182,21 +214,21 @@ export default function InsightsPage() {
                     </div>
                     <h3 className="text-base font-semibold text-white">Field Synthesis</h3>
                   </div>
-                  <p className="text-slate-300 text-sm leading-relaxed">{insights.overallSummary}</p>
+                  <p className="text-neutral-300 text-sm leading-relaxed">{insights.overallSummary}</p>
                 </div>
               )}
 
               {/* Themes */}
               {insights.themes?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
                     <Layers className="w-4 h-4 text-violet-400" /> Key Themes
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {insights.themes.map((t: any, i: number) => (
-                      <div key={i} className="glass-card rounded-xl p-4 border border-slate-700/30">
+                      <div key={i} className="glass-card rounded-xl p-4 border border-white/[0.08]">
                         <h4 className="text-sm font-semibold text-white mb-1.5">{t.name}</h4>
-                        <p className="text-slate-400 text-xs leading-relaxed">{t.description}</p>
+                        <p className="text-neutral-400 text-xs leading-relaxed">{t.description}</p>
                         {t.citations?.length > 0 && (
                           <div className="mt-2 flex flex-wrap gap-1">
                             {t.citations.map((c: string, j: number) => (
@@ -213,13 +245,13 @@ export default function InsightsPage() {
               {/* Consensus */}
               {insights.consensus?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-emerald-400" /> Points of Consensus
                   </h3>
                   <div className="space-y-2">
                     {insights.consensus.map((c: any, i: number) => (
                       <div key={i} className="glass-panel rounded-xl p-4 border border-emerald-500/10">
-                        <p className="text-slate-200 text-sm">{c.statement}</p>
+                        <p className="text-neutral-200 text-sm">{c.statement}</p>
                         {c.supportingSources?.length > 0 && (
                           <div className="mt-2 flex flex-wrap gap-1">
                             {c.supportingSources.map((s: string, j: number) => (
@@ -236,7 +268,7 @@ export default function InsightsPage() {
               {/* Conflicts */}
               {insights.conflicts?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
                     <XCircle className="w-4 h-4 text-red-400" /> Conflicts & Debates
                   </h3>
                   <div className="space-y-3">
@@ -246,11 +278,11 @@ export default function InsightsPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-3">
                             <div className="text-xs text-blue-400 font-medium mb-1">View A</div>
-                            <p className="text-slate-300 text-xs">{c.perspectiveA}</p>
+                            <p className="text-neutral-300 text-xs">{c.perspectiveA}</p>
                           </div>
                           <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-3">
                             <div className="text-xs text-red-400 font-medium mb-1">View B</div>
-                            <p className="text-slate-300 text-xs">{c.perspectiveB}</p>
+                            <p className="text-neutral-300 text-xs">{c.perspectiveB}</p>
                           </div>
                         </div>
                       </div>
@@ -262,7 +294,7 @@ export default function InsightsPage() {
               {/* Research Gaps */}
               {insights.gaps?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
                     <Telescope className="w-4 h-4 text-yellow-400" /> Research Gaps
                   </h3>
                   <div className="space-y-2">
@@ -270,13 +302,13 @@ export default function InsightsPage() {
                       <div key={i} className="glass-panel rounded-xl p-4 border border-yellow-500/10">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-slate-200 text-sm font-medium">{g.gap}</p>
-                            <p className="text-slate-500 text-xs mt-1">{g.impact}</p>
+                            <p className="text-neutral-200 text-sm font-medium">{g.gap}</p>
+                            <p className="text-neutral-500 text-xs mt-1">{g.impact}</p>
                           </div>
                           <span className={`text-xs px-2 py-1 rounded-md shrink-0 ${
                             g.confidence === 'High' ? 'bg-emerald-500/10 text-emerald-400' :
                             g.confidence === 'Medium' ? 'bg-yellow-500/10 text-yellow-400' :
-                            'bg-slate-500/10 text-slate-400'
+                            'bg-slate-500/10 text-neutral-400'
                           }`}>{g.confidence}</span>
                         </div>
                       </div>
@@ -288,7 +320,7 @@ export default function InsightsPage() {
               {/* Reading Path */}
               {insights.readingPath?.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                  <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
                     <BookOpen className="w-4 h-4 text-blue-400" /> Recommended Reading Path
                   </h3>
                   <div className="space-y-2">
@@ -299,7 +331,7 @@ export default function InsightsPage() {
                         </div>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-white">{r.title}</p>
-                          <p className="text-xs text-slate-500 mt-0.5">{r.reason}</p>
+                          <p className="text-xs text-neutral-500 mt-0.5">{r.reason}</p>
                         </div>
                         <span className={`text-xs px-2.5 py-1 rounded-md shrink-0 ${
                           r.stage === 'Foundational' ? 'bg-green-500/10 text-green-400' :
@@ -341,8 +373,8 @@ export default function InsightsPage() {
             {graphLoading ? (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                  <Network className="w-10 h-10 mx-auto mb-3 text-slate-600 animate-pulse" />
-                  <p className="text-slate-500 text-sm">Building knowledge graph...</p>
+                  <Network className="w-10 h-10 mx-auto mb-3 text-neutral-600 animate-pulse" />
+                  <p className="text-neutral-500 text-sm">Building knowledge graph...</p>
                 </div>
               </div>
             ) : (
@@ -351,7 +383,7 @@ export default function InsightsPage() {
           </div>
           {/* Snapshot info bar */}
           {currentSnapshot && (
-            <div className="flex items-center gap-2 text-xs text-slate-500">
+            <div className="flex items-center gap-2 text-xs text-neutral-500">
               <Clock className="w-3.5 h-3.5" />
               Showing {currentSnapshot.nodeIds?.size ?? 0} nodes at version {currentSnapshot.index + 1}
               {currentSnapshot.contradiction && (
@@ -385,22 +417,22 @@ export default function InsightsPage() {
             <h3 className="text-sm font-semibold text-white mb-4">Compare Two Documents</h3>
             <div className="grid grid-cols-2 gap-3 mb-4">
               <div>
-                <label className="text-xs text-slate-400 mb-1.5 block">Document A</label>
+                <label className="text-xs text-neutral-400 mb-1.5 block">Document A</label>
                 <select
                   value={compareA}
                   onChange={(e) => setCompareA(e.target.value)}
-                  className="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500/70"
+                  className="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-600"
                 >
                   <option value="">Select source...</option>
                   {sources.map((s: any) => <option key={s.id} value={s.id}>{s.title}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-xs text-slate-400 mb-1.5 block">Document B</label>
+                <label className="text-xs text-neutral-400 mb-1.5 block">Document B</label>
                 <select
                   value={compareB}
                   onChange={(e) => setCompareB(e.target.value)}
-                  className="w-full bg-slate-800/60 border border-slate-700/60 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500/70"
+                  className="w-full bg-neutral-900/60 border border-neutral-800 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-neutral-600"
                 >
                   <option value="">Select source...</option>
                   {sources.map((s: any) => <option key={s.id} value={s.id}>{s.title}</option>)}
@@ -410,7 +442,7 @@ export default function InsightsPage() {
             <button
               onClick={() => compareMut.mutate()}
               disabled={!compareA || !compareB || compareA === compareB || compareMut.isPending}
-              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium disabled:opacity-50 transition-colors"
+              className="px-5 py-2.5 bg-white hover:bg-neutral-200 text-black rounded-full text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
             >
               {compareMut.isPending ? 'Comparing...' : 'Compare Documents'}
             </button>
@@ -425,7 +457,7 @@ export default function InsightsPage() {
                   </h4>
                   <ul className="space-y-1">
                     {compResult.comparison.similarities.map((s: string, i: number) => (
-                      <li key={i} className="text-sm text-slate-300 flex items-start gap-2">
+                      <li key={i} className="text-sm text-neutral-300 flex items-start gap-2">
                         <ArrowRight className="w-3.5 h-3.5 text-emerald-400 mt-0.5 shrink-0" />{s}
                       </li>
                     ))}
@@ -441,8 +473,8 @@ export default function InsightsPage() {
                     <div key={i} className="mb-3">
                       <div className="text-xs font-medium text-amber-300 mb-1.5">{d.topic}</div>
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-2 text-xs text-slate-300">{d.inA}</div>
-                        <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-2 text-xs text-slate-300">{d.inB}</div>
+                        <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-2 text-xs text-neutral-300">{d.inA}</div>
+                        <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-2 text-xs text-neutral-300">{d.inB}</div>
                       </div>
                     </div>
                   ))}
@@ -464,12 +496,12 @@ export default function InsightsPage() {
                 value={briefAudience}
                 onChange={(e) => setBriefAudience(e.target.value)}
                 placeholder="Target audience..."
-                className="flex-1 bg-slate-800/50 border border-slate-700/60 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/70"
+                className="flex-1 bg-neutral-900/70 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-600"
               />
               <button
                 onClick={() => briefMut.mutate()}
                 disabled={briefMut.isPending}
-                className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium disabled:opacity-50 transition-colors"
+                className="px-5 py-2.5 bg-white hover:bg-neutral-200 text-black rounded-full text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-95"
               >
                 {briefMut.isPending ? 'Generating...' : 'Generate Brief'}
               </button>
@@ -481,7 +513,7 @@ export default function InsightsPage() {
                 <h3 className="text-sm font-semibold text-white">Executive Brief</h3>
                 <button
                   onClick={() => { const b = new Blob([briefText], { type: 'text/plain' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'executive-brief.md'; a.click(); }}
-                  className="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-xs text-neutral-400 hover:text-white transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" /> Download
                 </button>

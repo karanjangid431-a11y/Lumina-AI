@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.js';
-import { Zap, BookOpen, Search, Brain, Mail, Lock, User, ArrowRight, Sparkles } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 
 export default function AuthPage() {
   const [mode, setMode] = useState<'login' | 'register'>('login');
@@ -43,49 +43,35 @@ export default function AuthPage() {
     }
   };
 
+  const inputClass =
+    'w-full bg-neutral-900/80 border border-neutral-800 rounded-xl pl-10 pr-4 py-3 text-sm text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-neutral-600 focus:ring-1 focus:ring-neutral-700 transition-all duration-200';
+
   return (
-    <div className="min-h-screen bg-[#0b111e] flex items-center justify-center relative overflow-hidden">
-      {/* Animated background orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/5 rounded-full blur-3xl" />
+    <div className="min-h-screen bg-[#090A0F] flex items-center justify-center relative overflow-hidden">
+      {/* Subtle ambient light */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-white/[0.02] rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 w-full max-w-md px-6">
+      <div className="relative z-10 w-full max-w-sm px-6">
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-600 mb-4 shadow-lg shadow-blue-500/30">
-            <Zap className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-1">Lumina<span className="text-blue-400">AI</span></h1>
-          <p className="text-slate-400 text-sm">From information overload to cited insight</p>
-        </div>
-
-        {/* Feature pills */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8">
-          {[
-            { icon: BookOpen, label: 'RAG Pipeline' },
-            { icon: Search, label: 'OpenAlex' },
-            { icon: Brain, label: 'Gemini AI' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/60 border border-slate-700/50 text-slate-300 text-xs">
-              <Icon className="w-3 h-3 text-blue-400" />
-              {label}
-            </div>
-          ))}
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-semibold tracking-tight text-white mb-1.5">Lumina</h1>
+          <p className="text-neutral-500 text-sm leading-relaxed">Research intelligence, simplified.</p>
         </div>
 
         {/* Card */}
-        <div className="glass-panel rounded-2xl p-8">
+        <div className="bg-neutral-900/40 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-7">
           {/* Tab switcher */}
-          <div className="flex rounded-xl bg-slate-800/60 p-1 mb-6">
+          <div className="flex rounded-xl bg-neutral-900/80 p-1 mb-6">
             {(['login', 'register'] as const).map((m) => (
               <button
                 key={m}
                 onClick={() => { setMode(m); setError(''); }}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                  mode === m ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  mode === m
+                    ? 'bg-white text-black shadow-sm'
+                    : 'text-neutral-500 hover:text-neutral-300'
                 }`}
               >
                 {m === 'login' ? 'Sign In' : 'Register'}
@@ -93,33 +79,33 @@ export default function AuthPage() {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             {mode === 'register' && (
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Full Name"
+                  placeholder="Full name"
                   required
-                  className="w-full bg-slate-800/50 border border-slate-700/60 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/30 transition-all"
+                  className={inputClass}
                 />
               </div>
             )}
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
                 required
-                className="w-full bg-slate-800/50 border border-slate-700/60 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/30 transition-all"
+                className={inputClass}
               />
             </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
               <input
                 type="password"
                 value={pass}
@@ -127,12 +113,12 @@ export default function AuthPage() {
                 placeholder="Password"
                 required
                 minLength={6}
-                className="w-full bg-slate-800/50 border border-slate-700/60 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/70 focus:ring-1 focus:ring-blue-500/30 transition-all"
+                className={inputClass}
               />
             </div>
 
             {error && (
-              <div className="text-red-400 text-xs bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+              <div className="text-red-400 text-xs bg-red-500/10 border border-red-500/15 rounded-lg px-3 py-2">
                 {error}
               </div>
             )}
@@ -140,34 +126,37 @@ export default function AuthPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-60"
+              className="w-full bg-white hover:bg-neutral-200 text-black font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 shadow-sm active:scale-[0.98] disabled:opacity-50 mt-1"
             >
-              {loading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <ArrowRight className="w-4 h-4" />}
+              {loading ? (
+                <span className="w-4 h-4 border-2 border-neutral-400 border-t-black rounded-full animate-spin" />
+              ) : (
+                <ArrowRight className="w-4 h-4" />
+              )}
               {mode === 'login' ? 'Sign In' : 'Create Account'}
             </button>
           </form>
 
           <div className="relative my-5">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-700/50" />
+              <div className="w-full border-t border-white/[0.06]" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-[#151e2e] px-3 text-xs text-slate-500">or</span>
+              <span className="bg-neutral-900/80 px-3 text-xs text-neutral-600">or</span>
             </div>
           </div>
 
           <button
             onClick={handleGuest}
             disabled={loading}
-            className="w-full border border-slate-700/60 hover:border-blue-500/40 text-slate-300 hover:text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition-all hover:bg-slate-800/40"
+            className="w-full bg-neutral-900/60 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2 transition-all duration-200"
           >
-            <Sparkles className="w-4 h-4 text-blue-400" />
-            Continue as Guest Scholar
+            Continue as Guest
           </button>
         </div>
 
-        <p className="text-center text-slate-600 text-xs mt-6">
-          Lumina-AI · AI for Research & Knowledge Discovery
+        <p className="text-center text-neutral-600 text-xs mt-8 tracking-wide">
+          Lumina · Research & Knowledge Discovery
         </p>
       </div>
     </div>

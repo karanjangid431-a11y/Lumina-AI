@@ -131,25 +131,25 @@ export default function ReasoningConsole({ streamUrl, onAnswer, onDone }: Reason
     status === 'error'      ? 'bg-red-400' : 'bg-slate-500';
 
   return (
-    <div className="rounded-xl border border-slate-700/60 overflow-hidden bg-[#0a0f1e]/90 backdrop-blur-sm shadow-2xl">
+    <div className="rounded-xl border border-neutral-800 overflow-hidden bg-[#0a0f1e]/90 backdrop-blur-sm shadow-2xl">
       {/* Header bar */}
-      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/80 border-b border-slate-700/50 cursor-pointer select-none"
+      <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-900/80 border-b border-neutral-800/50 cursor-pointer select-none"
            onClick={() => setCollapsed((c) => !c)}>
         <Terminal className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-        <span className="text-xs font-mono font-semibold text-slate-300">Co-Pilot Reasoning Console</span>
+        <span className="text-xs font-mono font-semibold text-neutral-300">Co-Pilot Reasoning Console</span>
         <div className={`w-2 h-2 rounded-full ml-1 shrink-0 ${statusDot}`} title={status} />
-        <span className="text-xs text-slate-600 ml-0.5 capitalize">{status}</span>
+        <span className="text-xs text-neutral-600 ml-0.5 capitalize">{status}</span>
         <div className="ml-auto flex items-center gap-2">
           {status === 'done' && (
             <span className="text-xs text-emerald-400 font-mono">✓ Audit complete</span>
           )}
           {collapsed ? (
-            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+            <ChevronDown className="w-3.5 h-3.5 text-neutral-500" />
           ) : (
-            <ChevronUp className="w-3.5 h-3.5 text-slate-500" />
+            <ChevronUp className="w-3.5 h-3.5 text-neutral-500" />
           )}
           <button
-            className="text-slate-600 hover:text-slate-300 transition-colors"
+            className="text-neutral-600 hover:text-neutral-300 transition-colors"
             onClick={(e) => { e.stopPropagation(); setVisible(false); esRef.current?.close(); }}
           >
             <X className="w-3.5 h-3.5" />
@@ -165,22 +165,22 @@ export default function ReasoningConsole({ streamUrl, onAnswer, onDone }: Reason
           style={{ scrollBehavior: 'smooth' }}
         >
           {events.length === 0 && status === 'connecting' && (
-            <div className="text-slate-600 animate-pulse">Connecting to reasoning stream…</div>
+            <div className="text-neutral-600 animate-pulse">Connecting to reasoning stream…</div>
           )}
           {events.map((evt, idx) => {
             const Icon = STAGE_ICONS[evt.stage] || Terminal;
-            const color = STAGE_COLORS[evt.stage] || 'text-slate-400';
+            const color = STAGE_COLORS[evt.stage] || 'text-neutral-400';
             const isSpinner = evt.stage === 'HYBRID_RRF_SEARCH' || evt.stage === 'GEMINI_SYNTHESIS';
             return (
               <div key={idx} className="flex items-start gap-2">
-                <span className="text-slate-600 shrink-0" style={{ minWidth: '6ch' }}>
+                <span className="text-neutral-600 shrink-0" style={{ minWidth: '6ch' }}>
                   {new Date(evt.ts).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                 </span>
                 <Icon className={`w-3 h-3 shrink-0 mt-0.5 ${color} ${isSpinner && idx === events.length - 1 ? 'animate-spin' : ''}`} />
                 <span className={`${color} shrink-0 font-semibold`}>[{evt.stage}]</span>
-                <span className="text-slate-300 leading-relaxed break-words">{evt.detail}</span>
+                <span className="text-neutral-300 leading-relaxed break-words">{evt.detail}</span>
                 {Object.keys(evt.meta).length > 0 && (
-                  <span className="text-slate-600 ml-auto shrink-0">
+                  <span className="text-neutral-600 ml-auto shrink-0">
                     {Object.entries(evt.meta).map(([k, v]) => `${k}=${v}`).join(' ')}
                   </span>
                 )}

@@ -122,7 +122,7 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-4xl bg-slate-900 border border-neutral-800/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90">
           <div className="flex items-center gap-3">
@@ -136,7 +136,7 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
                   <CheckCircle2 className="w-3 h-3" /> Spatial Bounding Box
                 </span>
               </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-neutral-400 mt-0.5">
                 {citation.sourceTitle} {citation.page ? `• Page ${citation.page}` : ''}
               </p>
             </div>
@@ -145,22 +145,22 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
           <div className="flex items-center gap-2">
             <button
               onClick={() => setZoom((z) => Math.max(0.7, z - 0.1))}
-              className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
               title="Zoom Out"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
-            <span className="text-xs text-slate-400 w-12 text-center">{Math.round(zoom * 100)}%</span>
+            <span className="text-xs text-neutral-400 w-12 text-center">{Math.round(zoom * 100)}%</span>
             <button
               onClick={() => setZoom((z) => Math.min(1.5, z + 0.1))}
-              className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white transition-colors"
               title="Zoom In"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors ml-2"
+              className="p-1.5 rounded-lg hover:bg-neutral-900 text-neutral-400 hover:text-white transition-colors ml-2"
             >
               <X className="w-5 h-5" />
             </button>
@@ -170,14 +170,14 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
         {/* Content Body: Left Canvas Viewport / Right Citation Quote */}
         <div className="flex-1 overflow-hidden grid grid-cols-1 md:grid-cols-3 bg-slate-950">
           {/* Canvas Viewport */}
-          <div className="md:col-span-2 overflow-auto p-6 flex justify-center items-start bg-slate-950/70 border-r border-slate-800/60">
+          <div className="md:col-span-2 overflow-auto p-6 flex justify-center items-start bg-slate-950/70 border-r border-white/5">
             <div
               style={{
                 transform: `scale(${zoom})`,
                 transformOrigin: 'top center',
                 transition: 'transform 0.15s ease-out',
               }}
-              className="shadow-2xl rounded-lg overflow-hidden border border-slate-700/60"
+              className="shadow-2xl rounded-lg overflow-hidden border border-neutral-800"
             >
               <canvas ref={canvasRef} className="block" />
             </div>
@@ -187,31 +187,31 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
           <div className="p-6 flex flex-col justify-between bg-slate-900/40">
             <div className="space-y-4">
               <div>
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
                   Extracted Passage
                 </span>
-                <div className="mt-2 p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/50 text-sm text-slate-200 leading-relaxed italic border-l-4 border-l-blue-400">
+                <div className="mt-2 p-3.5 rounded-xl bg-neutral-900/60 border border-neutral-800/50 text-sm text-neutral-200 leading-relaxed italic border-l-4 border-l-blue-400">
                   "{citation.quote}"
                 </div>
               </div>
 
-              <div className="space-y-2 text-xs text-slate-400">
+              <div className="space-y-2 text-xs text-neutral-400">
                 <div className="flex justify-between py-1 border-b border-slate-800">
                   <span>Source Paper</span>
-                  <span className="text-slate-200 font-medium text-right max-w-[180px] truncate">
+                  <span className="text-neutral-200 font-medium text-right max-w-[180px] truncate">
                     {citation.sourceTitle}
                   </span>
                 </div>
                 {citation.authors && (
                   <div className="flex justify-between py-1 border-b border-slate-800">
                     <span>Authors</span>
-                    <span className="text-slate-200 font-medium">{citation.authors.slice(0, 2).join(', ')}</span>
+                    <span className="text-neutral-200 font-medium">{citation.authors.slice(0, 2).join(', ')}</span>
                   </div>
                 )}
                 {citation.year && (
                   <div className="flex justify-between py-1 border-b border-slate-800">
                     <span>Publication Year</span>
-                    <span className="text-slate-200 font-medium">{citation.year}</span>
+                    <span className="text-neutral-200 font-medium">{citation.year}</span>
                   </div>
                 )}
                 <div className="flex justify-between py-1 border-b border-slate-800">
@@ -228,7 +228,7 @@ export const VisualCitationModal: React.FC<VisualCitationModalProps> = ({ citati
             <div className="pt-4 border-t border-slate-800 flex gap-2">
               <button
                 onClick={copyQuote}
-                className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-medium text-neutral-200 transition-colors"
               >
                 <Copy className="w-3.5 h-3.5" />
                 {copied ? 'Copied to Clipboard!' : 'Copy Excerpt'}
