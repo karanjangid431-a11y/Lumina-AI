@@ -133,9 +133,11 @@ async function startServer() {
   process.on('SIGTERM', shutdown);
 }
 
-startServer().catch((err) => {
-  console.error('Fatal error during server startup:', err);
-  process.exit(1);
-});
+if (process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
+  startServer().catch((err) => {
+    console.error('Fatal error during server startup:', err);
+    process.exit(1);
+  });
+}
 
 export default app;

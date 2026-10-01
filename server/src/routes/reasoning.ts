@@ -107,7 +107,7 @@ router.get('/stream', async (req: Request, res: Response) => {
       mode: ws.mode,
     });
 
-    const claimCount = result.claims?.length ?? 0;
+    const claimCount = result.totalCitations ?? result.citations?.length ?? 0;
 
     sendEvent(res, 'GEMINI_SYNTHESIS', `Synthesis complete. Generated ${claimCount} initial claim${claimCount !== 1 ? 's' : ''} with evidence.`, {
       claimCount,
@@ -116,7 +116,7 @@ router.get('/stream', async (req: Request, res: Response) => {
     // ── Stage 4 ───────────────────────────────────────────────────────────────
     sendEvent(res, 'VERIFYING_CITATIONS', 'Running server-side quote verifier — checking each verbatim quote against stored chunk text…');
 
-    const verifiedCount = result.claims?.filter((c: any) => c.verified !== false).length ?? 0;
+    const verifiedCount = result.verifiedCount ?? result.citations?.filter((c: any) => c.verified !== false).length ?? 0;
     const droppedCount = claimCount - verifiedCount;
 
     sendEvent(res, 'VERIFYING_CITATIONS', `Verification complete. ${verifiedCount}/${claimCount} claims verified. ${droppedCount > 0 ? `${droppedCount} unverifiable claim(s) dropped.` : 'All claims verified ✓'}`, {
@@ -128,7 +128,7 @@ router.get('/stream', async (req: Request, res: Response) => {
     sendEvent(res, 'AUDIT_COMPLETE', `Audit complete. Emitting final grounded answer. Confidence: ${result.confidence ?? 'N/A'}`, {
       confidence: result.confidence,
       answerLength: result.answer?.length ?? 0,
-      retrievalTraceCount: result.retrievalTrace?.length ?? 0,
+      retrievalTraceCount: result.retrievalTrace?.topRetrievedChunks?.length ?? 0,
     });
 
     // Save retrieval log
